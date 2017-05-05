@@ -7,8 +7,6 @@
   <body>
     <h1><%= title %></h1>
 
-    <a href="/robots"><%= "<< back" %></a>
-
     <form id="new-robot-form" action="https://southernct-443-robots-api.herokuapp.com/api/robots" method="POST">
       <label for="name">Name</label>
       <input id="name" name="name" type="text" placeholder="My Robot">
@@ -23,7 +21,10 @@
       <br>
 
       <button id="submit" type="submit">Submit</button>
-    </form>
+    </form><br>
+
+    <!--Back to Robot List Page-->
+    <a href="/robots/"><%= "<< back" %></a>
 
     <!--Handle New Robot-->
     <script type="text/javascript">

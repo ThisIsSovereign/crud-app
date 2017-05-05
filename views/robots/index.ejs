@@ -9,17 +9,20 @@
 
     <ul>
       <% robots.forEach(function(robot){ %>
-        <li>
           <a href="/robots/<%= robot._id %>"><%= robot._id %></a>
           - <%= robot.name %>
           - <%= robot.description %>
-        </li>
+          <br>
       <% }) %>
     </ul>
 
+    <!--New Robot Button-->
     <a href="/robots/new">
       <button>+ New Robot</button>
-    </a>
+    </a><br><br>
+
+    <!--Back to App's Page-->
+    <a href="/"><%= "<< back" %></a>
 
   </body>
 </html>
