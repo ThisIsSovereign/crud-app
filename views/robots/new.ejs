@@ -25,6 +25,7 @@
       <button id="submit" type="submit">Submit</button>
     </form>
 
+    <!--Handle New Robot-->
     <script type="text/javascript">
 
     var inputName = document.getElementById("name")
@@ -35,7 +36,8 @@
     submitButton.addEventListener("click", submitForm, false)
 
     function submitForm(event) {
-      event.preventDefault() // Prevebts Duplicate Form Submissions
+      // Prevents Duplicate Form Submissions
+      event.preventDefault()
 
       var requestUrl = "https://southernct-443-robots-api.herokuapp.com/api/robots"
 
@@ -52,10 +54,10 @@
       fetch(requestUrl, requestOptions).then(function(response) {
         if (response.ok) {
           response.json().then(function(json){
-            window.location = '/robots' // Redirect to Robots Index
+            window.location = '/robots'
           })
         } else {
-          alert("OOPS THERE WAS AN ERROR")
+          alert("Error.")
         }
       })
 

@@ -9,5 +9,42 @@
 
     <p><%= robot.name %> - <%= robot.description %></p>
 
+    <!--Edit Robot-->
+    <a href="/robots/<%= robot._id %>/edit">
+      <button>Edit Robot</button>
+    </a>
+
+    <!--Delete Robot-->
+    <button id="delete-robot">Delete Robot</button>
+
+    <!--Handle Robot Deletion-->
+    <script type="text/javascript">
+
+    var deleteButton = document.getElementById("delete-robot")
+    deleteButton.addEventListener("click", deleteRobot, false)
+
+    function deleteRobot()
+    {
+      const requestUrl = "<%= requestUrl %>"
+      const requestOptions =
+      {
+        method: "DELETE",
+        headers: {'Accept':'application/json', 'Content-Type':'application/json'}
+      }
+
+      fetch(requestUrl, requestOptions).then(function(response)
+      {
+        if (response.ok) {
+          window.location = '/robots'
+        } else {
+          alert("Deletion Error.")
+        }
+      }).catch(function(err){
+        alert("Server Error. Try again later.")
+      })
+    }
+
+    </script>
+
   </body>
 </html>

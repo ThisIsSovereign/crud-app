@@ -2,18 +2,14 @@ var express = require('express');
 var router = express.Router();
 var fetch = require('node-fetch');
 
-/* New Robot */
-
+// Handle New Robot
 router.get('/robots/new', function(req, res, next) { // handle GET requests to the robots/new URL path
   res.render('robots/new', { // render the robots/new.ejs view
     title: "New Robot"
   })
 })
 
-module.exports = router;
-
-/* List Robots */
-
+// Handle List Robots
 router.get('/robots', function(req, res, next) {
   var url = "https://southernct-443-robots-api.herokuapp.com/api/robots"
 
@@ -21,21 +17,20 @@ router.get('/robots', function(req, res, next) {
     .then(function(response) {
       response.json()
         .then(function(json){
-          console.log("LISTING ROBOTS", json)
+          console.log("Listing Robots", json)
           res.render('robots/index', {robots: json, title: "All Robots"});
         })
     })
     .catch(function(err){
-      console.log("GOT AN ERROR:", err)
-      res.send({error: `OOPS - SERVER ERROR ${err}`});
+      console.log("Error:", err)
+      res.send({error: `Server Error ${err}`});
     })
 });
 
-/* Show Robot */
-
+// Handle Show Robot
 router.get('/robots/:id', function(req, res, next) {
   var robotId = req.params.id;
-  var errorMessage = `OOPS - COULDN'T FIND ROBOT ${robotId}`
+  var errorMessage = `Couldn't find robot ${robotId}`
   var url = `https://southernct-443-robots-api.herokuapp.com/api/robots/${robotId}`
 
   fetch(url)
@@ -43,10 +38,14 @@ router.get('/robots/:id', function(req, res, next) {
       response.json()
         .then(function(json){
           console.log("SHOWING ROBOT", json)
-          res.render('robots/show', {robot: json, title: `Robot ${robotId}`});
+          res.render('robots/show', {
+            robot: json,
+            title: `Robot ${robotId}`,
+            requestUrl: url
+          });
         })
         .catch(function(err){
-          console.log("JSON PARSE ERROR", err)
+          console.log("JSON Parse Error", err)
           res.send(errorMessage)
         })
     })
@@ -55,3 +54,23 @@ router.get('/robots/:id', function(req, res, next) {
       res.send(errorMessage)
     })
 });
+
+// Handle Edit Robot
+router.get('/robots/:id/edit', function(req, res, next) {
+  var robotId = req.params.id
+  var url = `https://southernct-443-robots-api.herokuapp.com/api/robots/${robotId}`
+
+  fetch(url).then(function(response) {
+    response.json().then(function(json){
+      console.log("Populating form with robot to be edited", json)
+      res.render('robots/edit', {
+        robot: json,
+        title: `Edit Robot ${robotId}`,
+        requestUrl: url,
+        requestMethod: "PUT"
+      })
+    })
+  })
+})
+
+module.exports = router;
