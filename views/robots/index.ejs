@@ -6,7 +6,12 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <a href="/users/">Users</a>
+
+    <ul>
+      <% robots.forEach(function(robot){ %>
+        <li><%= robot._id %> - <%= robot.name %> - <%= robot.description %></li>
+      <% }); %>
+    </ul>
+
   </body>
 </html>
