@@ -1,33 +1,49 @@
 var express = require('express');
 var router = express.Router();
-
-var myRobots = [
-  {"_id":"123abc", "name":"r2d2", "description":"holds a secret message", "in_stock":100},
-  {"_id":"456def", "name":"bb8", "description":"rolls around", "in_stock":75},
-  {"_id":"789xyz", "name":"c3po", "description":"specializes in language translation", "in_stock":50}
-] // static hard-coded data (for example)
+var fetch = require('node-fetch');
 
 /* List Robots */
 
 router.get('/robots', function(req, res, next) {
-  console.log("LISTING ROBOTS", myRobots)
-  res.render('robots/index', {robots: myRobots, title: "All Robots"});
+  var url = "https://southernct-443-robots-api.herokuapp.com/api/robots"
+
+  fetch(url)
+    .then(function(response) {
+      response.json()
+        .then(function(json){
+          console.log("LISTING ROBOTS", json)
+          res.render('robots/index', {robots: json, title: "All Robots"});
+        })
+    })
+    .catch(function(err){
+      console.log("GOT AN ERROR:", err)
+      res.send({error: `OOPS - SERVER ERROR ${err}`});
+    })
 });
 
 /* Show Robot */
 
 router.get('/robots/:id', function(req, res, next) {
   var robotId = req.params.id;
-  var robot = myRobots.find(function(robot){ return robot._id == robotId })
+  var errorMessage = `OOPS - COULDN'T FIND ROBOT ${robotId}`
+  var url = `https://southernct-443-robots-api.herokuapp.com/api/robots/${robotId}`
 
-  if (robot) {
-    console.log("SHOWING ROBOT", robot)
-    res.render('robots/show', {robot: robot, title: `Robot ${robotId}`});
-  } else {
-    var errorMessage = `OOPS - COULDN'T FIND ROBOT ${robotId}`
-    console.log(errorMessage)
-    res.send(errorMessage)
-  }
+  fetch(url)
+    .then(function(response) {
+      response.json()
+        .then(function(json){
+          console.log("SHOWING ROBOT", json)
+          res.render('robots/show', {robot: json, title: `Robot ${robotId}`});
+        })
+        .catch(function(err){
+          console.log("JSON PARSE ERROR", err)
+          res.send(errorMessage)
+        })
+    })
+    .catch(function(err){
+      console.log(errorMessage)
+      res.send(errorMessage)
+    })
 });
 
 module.exports = router;
