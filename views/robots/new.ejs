@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+
+    <a href="/robots"><%= "<< back" %></a>
+
+    <form id="new-robot-form" action="https://southernct-443-robots-api.herokuapp.com/api/robots" method="POST">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" placeholder="My Robot">
+      <br>
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="10" placeholder="Does all the things..."></textarea>
+      <br>
+
+      <label for="in-stock">Units in-stock</label>
+      <input id="in-stock" name="in_stock" type="number" placeholder="0">
+      <br>
+
+      <button id="submit" type="submit">Submit</button>
+    </form>
+
+    <script type="text/javascript">
+
+    var inputName = document.getElementById("name")
+    var inputDescription = document.getElementById("description")
+    var inputQuantityInStock = document.getElementById("in-stock")
+    var submitButton = document.getElementById("submit")
+
+    submitButton.addEventListener("click", submitForm, false)
+
+    function submitForm(event) {
+      event.preventDefault() // Prevebts Duplicate Form Submissions
+
+      var requestUrl = "https://southernct-443-robots-api.herokuapp.com/api/robots"
+
+      // Read Input Values
+      var formData = {name: inputName.value, description: inputDescription.value, in_stock: inputQuantityInStock.value}
+      console.log("POSTING", formData, "TO", requestUrl)
+
+      var requestOptions = {
+        method: "POST",
+        headers: {'Accept':'application/json', 'Content-Type':'application/json'},
+        body: JSON.stringify(formData)
+      }
+
+      fetch(requestUrl, requestOptions).then(function(response) {
+        if (response.ok) {
+          response.json().then(function(json){
+            window.location = '/robots' // Redirect to Robots Index
+          })
+        } else {
+          alert("OOPS THERE WAS AN ERROR")
+        }
+      })
+
+    }
+
+    </script>
+  </body>
+</html>
