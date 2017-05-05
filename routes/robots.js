@@ -3,8 +3,8 @@ var router = express.Router();
 var fetch = require('node-fetch');
 
 // Handle New Robot
-router.get('/robots/new', function(req, res, next) { // handle GET requests to the robots/new URL path
-  res.render('robots/new', { // render the robots/new.ejs view
+router.get('/robots/new', function(req, res, next) {
+  res.render('robots/new', {
     title: "New Robot"
   })
 })
@@ -40,7 +40,7 @@ router.get('/robots/:id', function(req, res, next) {
           console.log("SHOWING ROBOT", json)
           res.render('robots/show', {
             robot: json,
-            title: `Robot ${robotId}`,
+            title: `Robot - ID: [${robotId}]`,
             requestUrl: url
           });
         })
@@ -65,7 +65,7 @@ router.get('/robots/:id/edit', function(req, res, next) {
       console.log("Populating form with robot to be edited", json)
       res.render('robots/edit', {
         robot: json,
-        title: `Edit Robot ${robotId}`,
+        title: `Edit Robot - ID: [${robotId}]`,
         requestUrl: url,
         requestMethod: "PUT"
       })

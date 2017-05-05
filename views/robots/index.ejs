@@ -9,8 +9,12 @@
 
     <ul>
       <% robots.forEach(function(robot){ %>
-        <li><%= robot._id %> - <%= robot.name %> - <%= robot.description %></li>
-      <% }); %>
+        <li>
+          <a href="/robots/<%= robot._id %>"><%= robot._id %></a>
+          - <%= robot.name %>
+          - <%= robot.description %>
+        </li>
+      <% }) %>
     </ul>
 
     <a href="/robots/new">

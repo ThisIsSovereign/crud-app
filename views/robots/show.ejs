@@ -7,7 +7,9 @@
   <body>
     <h1><%= title %></h1>
 
-    <p><%= robot.name %> - <%= robot.description %></p>
+    <!--Show Name/Description/Current Stock-->
+    <p><%= robot.name %>: <%= robot.description %></p>
+    <p>Current Stock: <%= robot.in_stock %> </p>
 
     <!--Edit Robot-->
     <a href="/robots/<%= robot._id %>/edit">

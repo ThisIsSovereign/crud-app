@@ -7,8 +7,6 @@
   <body>
     <h1><%= title %></h1>
 
-    <a href="/robots/<%= robot._id %>"><%= "<< back" %></a>
-
     <form id="edit-robot-form" action="<%= requestUrl %>" method="<%= requestMethod %>">
       <label for="name">Name</label>
       <input id="name" name="name" type="text" placeholder="My Robot" value="<%= robot.name %>">
@@ -21,8 +19,8 @@
       <br>
       <button id="submit" type="submit">Submit</button>
     </form>
-
-    <hr style="margin-top:2em;">
+    <br>
+    <a href="/robots/<%= robot._id %>"><%= "<< back" %></a>
 
     <script type="text/javascript">
       const requestMethod = "<%= requestMethod %>"
